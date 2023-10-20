@@ -59,7 +59,7 @@ public class ReadableDAO {
 
     public List<Book> getReadablesbyAuthor (String author){
         try {
-            TypedQuery<Book> q = em.createQuery("SELECT x FROM Book x WHERE x.author LIKE '%:cond%'", Book.class);
+            TypedQuery<Book> q = em.createQuery("SELECT x FROM Book x WHERE x.author LIKE CONCAT ('%', :cond, '%')", Book.class);
             q.setParameter("cond", author);
             return q.getResultList();
         } catch (Exception ex) {
@@ -70,7 +70,7 @@ public class ReadableDAO {
 
     public List<Readable> getReadablesbyTitle (String title){
         try {
-            TypedQuery<Readable> q = em.createQuery("SELECT x FROM book x, magazine xx WHERE (x.title LIKE '%:cond%') OR (xx.title LIKE '%:cond%')", Readable.class);
+            TypedQuery<Readable> q = em.createQuery("SELECT x FROM Book x, Magazine xx WHERE (x.title LIKE CONCAT ('%', :cond, '%')) OR (xx.title LIKE CONCAT ('%', :cond, '%'))", Readable.class);
             q.setParameter("cond", title);
             return q.getResultList();
         } catch (Exception ex) {

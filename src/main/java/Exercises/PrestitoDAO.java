@@ -46,7 +46,7 @@ public class PrestitoDAO {
 
     public List<Prestito> getUnreturnedBooks (){
         try {
-            TypedQuery<Prestito> q = em.createQuery("SELECT * FROM prestito p WHERE p.consegnaEffettiva::date > p.consegnaPrevista::date", Prestito.class);
+            TypedQuery<Prestito> q = em.createQuery("SELECT x FROM Prestito x WHERE x.consegnaEffettiva > x.consegnaPrevista", Prestito.class);
             return q.getResultList();
         } catch (Exception ex) {
             System.err.println("exception" + ex.getMessage());

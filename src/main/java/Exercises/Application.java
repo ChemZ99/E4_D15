@@ -41,6 +41,12 @@ public class Application {
             System.out.println(rd.getReadablesbyPublish(LocalDate.of(2002,Month.APRIL,12)).toString());
             System.out.println("*********************************ricerca per autore*********************************");
             System.out.println(rd.getReadablesbyAuthor("Row"));
+            System.out.println("*********************************ricerca per titolo*********************************");
+            System.out.println(rd.getReadablesbyTitle("song"));
+            System.out.println("*********************************ricerca elementi in prestito*********************************");
+            System.out.println("*********************************ricerca prestiti scaduti*********************************");
+            System.out.println(pd.getUnreturnedBooks());
+
         } catch (Exception ex) {
             System.err.println("Exception" + ex.getMessage());
         }
