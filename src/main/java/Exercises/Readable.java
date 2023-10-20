@@ -1,12 +1,24 @@
 package Exercises;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Readable {
+    @Id
     private int ISBN;
+    @Column
     private String title;
+    @Column
     private LocalDate published;
+    @Column
     private int pages;
+    @ManyToOne
+    @JoinColumn(name = "leggibile_id")
+    private Readable readable;
+
+    public Readable(){}
 
     public Readable(int ISBN, String title, LocalDate published, int pages) {
         this.ISBN = ISBN;
@@ -45,6 +57,14 @@ public abstract class Readable {
 
     public void setPages(int pages) {
         this.pages = pages;
+    }
+
+    public Readable getReadable() {
+        return readable;
+    }
+
+    public void setReadable(Readable readable) {
+        this.readable = readable;
     }
 
     @Override
