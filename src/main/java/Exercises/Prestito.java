@@ -19,21 +19,21 @@ public class Prestito {
     private LocalDate consegnaEffettiva;
     @ManyToOne
     @JoinColumn(name = "utente_id")
-    @Column
     private Utente utente;
 
-    @OneToMany(mappedBy = "prestito")
-    @Column
-    private List<Readable> prestati = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "libro_id")
+    private Readable readable;
 
-    public Prestito () {}
+    public Prestito () {
+    }
 
-    public Prestito(LocalDate inizioPrestito, LocalDate consegnaPrevista, LocalDate consegnaEffettiva, Utente utente, List<Readable> prestati) {
+    public Prestito(LocalDate inizioPrestito, LocalDate consegnaEffettiva, Utente utente, Readable prestato) {
         this.inizioPrestito = inizioPrestito;
-        this.consegnaPrevista = consegnaPrevista;
         this.consegnaEffettiva = consegnaEffettiva;
         this.utente = utente;
-        this.prestati = prestati;
+        this.readable = prestato;
+        consegnaPrevista = inizioPrestito.plusDays(30);
     }
 
     public LocalDate getInizioPrestito() {
@@ -68,12 +68,20 @@ public class Prestito {
         this.utente = utente;
     }
 
-    public List<Readable> getPrestati() {
-        return prestati;
+    public long getId() {
+        return id;
     }
 
-    public void setPrestati(List<Readable> prestati) {
-        this.prestati = prestati;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Readable getPrestato() {
+        return readable;
+    }
+
+    public void setPrestato(Readable prestato) {
+        this.readable = prestato;
     }
 
     @Override
@@ -83,7 +91,7 @@ public class Prestito {
                 ", consegnaPrevista=" + consegnaPrevista +
                 ", consegnaEffettiva=" + consegnaEffettiva +
                 ", utente=" + utente +
-                ", prestati=" + prestati +
+                ", prestato=" + readable +
                 '}';
     }
 }

@@ -2,6 +2,8 @@ package Exercises;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class PrestitoDAO {
     private final EntityManager em;
@@ -39,6 +41,16 @@ public class PrestitoDAO {
         } catch (Exception ex) {
             System.err.println("exception" + ex.getMessage());
 
+        }
+    }
+
+    public List<Prestito> getUnreturnedBooks (){
+        try {
+            TypedQuery<Prestito> q = em.createQuery("SELECT * FROM prestito p WHERE p.consegnaEffettiva::date > p.consegnaPrevista::date", Prestito.class);
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("exception" + ex.getMessage());
+            throw ex;
         }
     }
 }

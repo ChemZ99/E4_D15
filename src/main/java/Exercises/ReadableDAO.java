@@ -2,6 +2,9 @@ package Exercises;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.time.LocalDate;
+import java.util.List;
 
 public class ReadableDAO {
     private final EntityManager em;
@@ -41,4 +44,39 @@ public class ReadableDAO {
 
         }
     }
+
+    public List<Readable> getReadablesbyPublish (LocalDate year){
+        int cond = year.getYear();
+        try {
+            TypedQuery<Readable> q = em.createQuery("SELECT x FROM Book x, Magazine xx WHERE (EXTRACT (ISOYEAR FROM x.published) = :cond) OR (EXTRACT (ISOYEAR FROM xx.published) = :cond)", Readable.class);
+            q.setParameter("cond", cond);
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("exception" + ex.getMessage());
+            throw ex;
+        }
+    }
+
+    public List<Book> getReadablesbyAuthor (String author){
+        try {
+            TypedQuery<Book> q = em.createQuery("SELECT x FROM Book x WHERE x.author LIKE '%:cond%'", Book.class);
+            q.setParameter("cond", author);
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("exception" + ex.getMessage());
+            throw ex;
+        }
+    }
+
+    public List<Readable> getReadablesbyTitle (String title){
+        try {
+            TypedQuery<Readable> q = em.createQuery("SELECT x FROM book x, magazine xx WHERE (x.title LIKE '%:cond%') OR (xx.title LIKE '%:cond%')", Readable.class);
+            q.setParameter("cond", title);
+            return q.getResultList();
+        } catch (Exception ex) {
+            System.err.println("exception" + ex.getMessage());
+            throw ex;
+        }
+    }
+
 }

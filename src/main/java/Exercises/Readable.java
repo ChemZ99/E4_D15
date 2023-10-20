@@ -14,9 +14,8 @@ public abstract class Readable {
     private LocalDate published;
     @Column
     private int pages;
-    @ManyToOne
-    @JoinColumn(name = "leggibile_id")
-    private Readable readable;
+    @OneToOne(mappedBy = "readable")
+    private Prestito prestito;
 
     public Readable(){}
 
@@ -57,14 +56,6 @@ public abstract class Readable {
 
     public void setPages(int pages) {
         this.pages = pages;
-    }
-
-    public Readable getReadable() {
-        return readable;
-    }
-
-    public void setReadable(Readable readable) {
-        this.readable = readable;
     }
 
     @Override
