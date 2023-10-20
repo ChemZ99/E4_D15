@@ -8,6 +8,9 @@ import java.util.List;
 @Entity
 @Table(name = "prestito")
 public class Prestito {
+    @Id
+    @GeneratedValue
+    private long id;
     @Column
     private LocalDate inizioPrestito;
     @Column
